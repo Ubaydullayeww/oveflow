@@ -199,12 +199,17 @@ class ProductCard extends StatelessWidget {
           children: [
             Expanded(
               child: Center(
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.image_not_supported, size: 80, color: Colors.black54);
-                  },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    imagePath,
+                    fit: BoxFit.fill,
+                    height: double.infinity,
+                    width: double.infinity,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.image_not_supported, size: 80, color: Colors.black54);
+                    },
+                  ),
                 ),
               ),
             ),

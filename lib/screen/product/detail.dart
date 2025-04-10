@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:overflow/screen/card/reting.dart';
+import 'package:overflow/screen/card/card.dart';
+import 'package:overflow/screen/product/reting.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final double price;
@@ -32,6 +32,7 @@ class ProductDetailScreen extends StatelessWidget {
               children: [
                 Image.asset(
                   imagePath,
+                  fit: BoxFit.fill,
                   height: 350,
                   width: double.infinity,
                   errorBuilder: (context, error, stackTrace) {
@@ -86,7 +87,9 @@ class ProductDetailScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=>CardPage()));
+                  },
                   child: Text(
                     'Add to Card',
                     style: TextStyle(color: Colors.white),
