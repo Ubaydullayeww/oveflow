@@ -35,8 +35,8 @@ class _CardState extends State<CardPage> {
                 ),
               ),
               onPressed: () {
-                onConfirm(); // Confirm action
-                Navigator.pop(context); // Close dialog
+                onConfirm();
+                Navigator.pop(context);
               },
               child: Text('Yes'),
             ),
@@ -67,7 +67,47 @@ class _CardState extends State<CardPage> {
         title: Text('back'),
         centerTitle: false,
       ),
-      body: CustomScrollView(
+      body: name.isEmpty
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('🛒', style: TextStyle(fontSize: 100)),
+            SizedBox(height: 30),
+            Text(
+              'Your cart is empty',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Looking for ideas',
+              style: TextStyle(color: Colors.grey, fontSize: 18),
+            ),
+            SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue.shade900,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  minimumSize: Size(double.infinity, 70),
+                ),
+                child: Text(
+                  'Explore New Products',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+          : CustomScrollView(
         slivers: [
           SliverAppBar(
             centerTitle: false,
@@ -97,128 +137,97 @@ class _CardState extends State<CardPage> {
               ),
             ],
           ),
-
-          if (name.isEmpty)
-            SliverFillRemaining(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('🛒' ,style: TextStyle(fontSize: 100),),
-                    SizedBox(height: 30,),
-                    Text('Your card is empty',style: TextStyle(color: Colors.black , fontSize: 25 , fontWeight: FontWeight.bold),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: ListTile(
+                    title: Text(
+                      name[index],
+                      style: TextStyle(color: Colors.black, fontSize: 24),
                     ),
-                    Text('Looking for ideas' , style: TextStyle(color: Colors.grey , fontSize: 18),),
-                    SizedBox(height: 30,),
-         Padding(
-           padding: const EdgeInsets.only(left: 30 , right: 30),
-           child: ElevatedButton(onPressed: (){}, child: Text('Explore New Products' , style: TextStyle(color: Colors.white),),
-
-             style: ElevatedButton.styleFrom(
-               backgroundColor: Colors.blue.shade900,
-               shape: RoundedRectangleBorder(
-                 borderRadius: BorderRadius.circular(10),
-               ),
-               minimumSize: Size(double.infinity, 70)
-             ),
-           ),
-         ),
-                  ],
-                ),
-              ),
-            )
-          else
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ListTile(
-                      title: Text(
-                        name[index],
-                        style: TextStyle(color: Colors.black, fontSize: 24),
-                      ),
-                      subtitle: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              myDialog(
-                                context,
-                                'Are you sure want to delete "${name[index]}"?',
-                                'Delete "${name[index]}"',
-                                    () {
-                                  setState(() {
-                                    images.removeAt(index);
-                                    name.removeAt(index);
-                                    price.removeAt(index);
-                                    count.removeAt(index);
-                                  });
-                                },
-                              );
-                            },
-                            icon: Icon(CupertinoIcons.trash),
-                          ),
-                          SizedBox(width: 20),
-                          Text('${count[index]}'),
-                          SizedBox(width: 20),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                count[index]++;
-                              });
-                            },
-                            icon: Icon(CupertinoIcons.plus),
-                          ),
-                          SizedBox(width: 80),
-                          Text(
-                            price[index],
-                            style: TextStyle(color: Colors.grey, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                      leading: Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
+                    subtitle: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            myDialog(
+                              context,
+                              'Are you sure want to delete "${name[index]}"?',
+                              'Delete "${name[index]}"',
+                                  () {
+                                setState(() {
+                                  images.removeAt(index);
+                                  name.removeAt(index);
+                                  price.removeAt(index);
+                                  count.removeAt(index);
+                                });
+                              },
+                            );
+                          },
+                          icon: Icon(CupertinoIcons.trash),
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(images[index], fit: BoxFit.fill),
+                        SizedBox(width: 20),
+                        Text('${count[index]}'),
+                        SizedBox(width: 20),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              count[index]++;
+                            });
+                          },
+                          icon: Icon(CupertinoIcons.plus),
                         ),
+                        Spacer(),
+                        Text(
+                          price[index],
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    leading: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(images[index], fit: BoxFit.fill),
                       ),
                     ),
-                  );
-                },
-                childCount: name.length,
-              ),
-            ),
-
-          // Checkout button
-          if (name.isNotEmpty)
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.only(top: 250, left: 15, right: 15),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Colors.blue,
-                    minimumSize: Size(double.infinity, 80),
                   ),
-                  child: Column(
-                    children: [
-                      Text('Check out'),
-                      Text('\$1079'), // You can calculate total dynamically too
-                    ],
-                  ),
-                ),
-              ),
+                );
+              },
+              childCount: name.length,
             ),
+          ),
         ],
       ),
+
+      // 🔽 Always visible Check out button
+      bottomNavigationBar: name.isNotEmpty
+          ? Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: Colors.blue,
+            minimumSize: Size(double.infinity, 70),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Check out', style: TextStyle(fontSize: 18)),
+              Text('\$1079', style: TextStyle(fontSize: 16, color: Colors.white70)),
+            ],
+          ),
+        ),
+      )
+          : null,
     );
   }
 }
