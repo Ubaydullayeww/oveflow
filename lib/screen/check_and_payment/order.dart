@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:overflow/screen/product/product_screen.dart';
-import 'package:overflow/screen/sign_in_sign_up/sign_in.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({super.key});
+class Order extends StatefulWidget {
+  const Order({super.key});
 
   @override
-  State<Welcome> createState() => _WelcomeState();
+  State<Order> createState() => _Order();
 }
 
-class _WelcomeState extends State<Welcome> {
-  void myDialog() {
-    showDialog(context: context, builder: (context){
-    return AlertDialog(
-      title: Text('Are you sign in app?'),
-      actions: [
-        TextButton(onPressed: (){
-          Navigator.push(context,    MaterialPageRoute(builder: (_) => ProductScreen()));
-        }, child: Text('Yes'),),
-        TextButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (_)=>SignIn()));
-        }, child: Text('No'),),
-      ],
-    ) ;
-    }
-    );
-  }
-
+class _Order extends State<Order> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -50,43 +32,30 @@ class _WelcomeState extends State<Welcome> {
                 children: [
                   const Spacer(flex: 2),
                   Text(
-                    'SHOPIN',
+                    'Congratulations',
                     style: TextStyle(
                       color: Colors.purple.shade900,
                       fontWeight: FontWeight.bold,
-                      fontSize: width * 0.12, // Responsive text size
-                      letterSpacing: 8,
+                      fontSize: 35, // Responsive text size
                     ),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: height * 0.05),
                   Text(
-                    'Amazing shopping',
+                    'Your order Sucsesfuly placed',
                     style: TextStyle(
                       color: Colors.purple.shade900,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
                       fontSize: width * 0.06,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  Text(
-                    'Experience a new way',
-                    style: TextStyle(
-                      color: Colors.purple.shade600,
-                      fontSize: width * 0.04,
-                    ),
-                  ),
-                  Text(
-                    'of shopping.',
-                    style: TextStyle(
-                      color: Colors.purple.shade600,
-                      fontSize: width * 0.04,
-                    ),
-                  ),
+
                   SizedBox(height: height * 0.1),
                   ElevatedButton(
                     onPressed: () {
-                     myDialog();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => ProductScreen()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurple.shade700,
@@ -96,7 +65,7 @@ class _WelcomeState extends State<Welcome> {
                       ),
                     ),
                     child: Text(
-                      'Explore',
+                      'Continue Shopping',
                       style: TextStyle(
                         fontSize: width * 0.045,
                         fontWeight: FontWeight.bold,
